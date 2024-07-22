@@ -1,5 +1,9 @@
 package com.example.myapplication;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,10 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         // 활동 퍼미션 체크
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
 
             requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
         }
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void onStart() {
         super.onStart();
-        if (stepCountSensor != null) {
+        if(stepCountSensor !=null) {
             // 센서 속도 설정
             // * 옵션
             // - SENSOR_DELAY_NORMAL: 20,000 초 딜레이
@@ -82,17 +82,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             // - SENSOR_DELAY_GAME: 20,000 초 딜레이
             // - SENSOR_DELAY_FASTEST: 딜레이 없음
             //
-            sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_FASTEST);
+            sensorManager.registerListener(this,stepCountSensor,SensorManager.SENSOR_DELAY_FASTEST);
         }
     }
+
 
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         // 걸음 센서 이벤트 발생시
-        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+        if(event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR){
 
-            if (event.values[0] == 1.0f) {
+            if(event.values[0]==1.0f){
                 // 센서 이벤트가 발생할때 마다 걸음수 증가
                 currentSteps++;
                 stepCountView.setText(String.valueOf(currentSteps));
@@ -108,33 +109,3 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        Log.d("getKeyHash", "" + getKeyHash(MainActivity.this));
-//    }
-//
-//    public static String getKeyHash(final Context context) {
-//        PackageManager pm = context.getPackageManager();
-//        try {
-//            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
-//            if (packageInfo == null)
-//                return null;
-//
-//            for (Signature signature : packageInfo.signatures) {
-//                try {
-//                    MessageDigest md = MessageDigest.getInstance("SHA");
-//                    md.update(signature.toByteArray());
-//                    return android.util.Base64.encodeToString(md.digest(), android.util.Base64.DEFAULT);
-//                } catch (NoSuchAlgorithmException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
