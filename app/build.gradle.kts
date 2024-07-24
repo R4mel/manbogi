@@ -37,6 +37,8 @@ android {
 
 dependencies {
     implementation("com.kakao.sdk:v2-user:2.10.0")
+    implementation("com.google.android.gms:play-services-fitness:21.2.0")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
